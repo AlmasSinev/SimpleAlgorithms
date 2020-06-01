@@ -1,0 +1,121 @@
+using System;
+using System.Linq;
+
+namespace Метод_случайных_направлений
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            M_S_N.Met_S_N();
+            Console.ReadLine();
+        }
+    }
+    class M_S_N
+    {
+        static Random random = new Random();
+        public static double Function(double x1, double x2, double a, double b, double c, double d, double e, double f) => a * x1 * x1 + b * x1 * x2 + c * x2 * x2 + d * x1 + e * x2 + f;
+        public static void Met_S_N()
+        {
+            Console.WriteLine("Введите a:");
+            double a1 = double.Parse(Console.ReadLine());
+            Console.WriteLine("Введите b:");
+            double b1 = double.Parse(Console.ReadLine());
+            Console.WriteLine("Введите с:");
+            double c1 = double.Parse(Console.ReadLine());
+            Console.WriteLine("Введите d:");
+            double d1 = double.Parse(Console.ReadLine());
+            Console.WriteLine("Введите e:");
+            double e1 = double.Parse(Console.ReadLine());
+            Console.WriteLine("Введите f:");
+            double f1 = double.Parse(Console.ReadLine());
+            Console.WriteLine("Введите точность:");
+            double _Toch = double.Parse(Console.ReadLine());
+            double x1, x2, _x1, _x2, alpha1, alpha2, ind, check_ind1, check_ind2, count = 0, h = 1, tochnost = 1000;
+            double[] mas_x1 = new double[6];
+            double[] mas_x2 = new double[6];
+            double[] mas_x1_Check = new double[6];
+            double[] mas_x2_Check = new double[6];
+            double[] mas_F = new double[6];
+            double[] mas_F_Check = new double[6];
+            Console.Write("x1 = ");
+            x1 = Convert.ToDouble(Console.ReadLine());
+            Console.Write("x2 = ");
+            x2 = Convert.ToDouble(Console.ReadLine());
+            Console.WriteLine();
+            for (int i = 0; i < mas_F.Length; i++)
+            {
+                mas_F[i] = Math.Sign(a1) * 1000;
+                mas_x1[i] = Math.Sign(a1) * 1000;
+                mas_x2[i] = Math.Sign(a1) * 1000;
+            }
+            while (tochnost > _Toch)
+            {
+                for (int i = 0; i < mas_x1.Length; i++)
+                {
+                    _x1 = 2 * random.NextDouble() - 1;
+                    _x2 = 2 * random.NextDouble() - 1;
+                    alpha1 = _x1 / Math.Sqrt(_x1 * _x1 + _x2 * _x2);
+                    alpha2 = _x2 / Math.Sqrt(_x1 * _x1 + _x2 * _x2);
+                    mas_x1_Check[i] = mas_x1[i];
+                    mas_x1[i] = x1 + h * alpha1;
+                    mas_x2_Check[i] = mas_x2[i];
+                    mas_x2[i] = x2 + h * alpha2;
+                    mas_F_Check[i] = mas_F[i];
+                    mas_F[i] = Function(mas_x1[i], mas_x2[i], a1, b1, c1, d1, e1, f1);
+                }
+                if (a1 > 0)
+                {
+                    if (mas_F.Min() > mas_F_Check.Min())
+                    {
+                        h /= 2;
+                        ind = Array.IndexOf(mas_F_Check, mas_F_Check.Min());
+                        x1 = mas_x1_Check[(int)ind];
+                        x2 = mas_x2_Check[(int)ind];
+                    }
+                    else
+                    {
+                        ind = Array.IndexOf(mas_F, mas_F.Min());
+                        x1 = mas_x1[(int)ind];
+                        x2 = mas_x2[(int)ind];
+                    }
+                }
+                else
+                {
+                    if (mas_F.Max() < mas_F_Check.Max())
+                    {
+                        h /= 2;
+                        ind = Array.IndexOf(mas_F_Check, mas_F_Check.Max());
+                        x1 = mas_x1_Check[(int)ind];
+                        x2 = mas_x2_Check[(int)ind];
+                    }
+                    else
+                    {
+                        ind = Array.IndexOf(mas_F, mas_F.Max());
+                        x1 = mas_x1[(int)ind];
+                        x2 = mas_x2[(int)ind];
+                    }
+                }
+                if (a1 > 0)
+                {
+                    check_ind1 = Array.IndexOf(mas_F, mas_F.Min());
+                    check_ind2 = Array.IndexOf(mas_F_Check, mas_F_Check.Min());
+                }
+                else
+                {
+                    check_ind1 = Array.IndexOf(mas_F, mas_F.Max());
+                    check_ind2 = Array.IndexOf(mas_F_Check, mas_F_Check.Max());
+                }
+                Console.WriteLine();
+                Console.WriteLine($"Точка:              [{Math.Round(x1, 5)} ; {Math.Round(x2, 5)}]");
+                tochnost = 5 * Math.Abs(Function(mas_x1[(int)check_ind1], mas_x2[(int)check_ind1], a1, b1, c1, d1, e1, f1) - Function(mas_x1_Check[(int)check_ind2], mas_x2_Check[(int)check_ind2], a1, b1, c1, d1, e1, f1));
+                count++;
+            }
+            Console.WriteLine();
+            Console.WriteLine($"Точка x1:                            {Math.Round(x1, 5)}");
+            Console.WriteLine($"Точка x2:                            {Math.Round(x2, 5)}");
+            Console.WriteLine($"Экстремум функции:                   {Math.Round(Function(x1, x2, a1, b1, c1, d1, e1, f1), 5)}");
+            Console.WriteLine($"Количество операций:                 {count}");
+        }
+    }
+}
