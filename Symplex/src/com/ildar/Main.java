@@ -10,7 +10,15 @@ public class Main {
         double x1, x2;
         double l;
         double eps;
-
+        
+        int[] arr = {123, 1, 64, 3, 675, 54, 23, 66, 647, 4, 0, -76, -9, 0, 88};
+        
+        Sorting sort = new Sorting();
+        
+        sort.showArr(arr);
+        sort.combSorting(arr);
+        sort.showArr(arr);
+        
 //        Scanner in = new Scanner(System.in);
 //
 //        System.out.print("\nВведите a: ");
@@ -49,9 +57,9 @@ public class Main {
         //randomVectors.go();
 
 
-        HJMethod hj = new HJMethod(-3, 4, -4, 6, 4, 0, 9, 4,1, 0.002, "MAX");
-        HJMethod hj2 = new HJMethod(5, 1, 3, 4, -7, 2, 5, 4,1, 0.002, "MIN");
-        hj.go();
+        //HJMethod hj = new HJMethod(-3, 4, -4, 6, 4, 0, 9, 4,1, 0.002, "MAX");
+        //HJMethod hj2 = new HJMethod(5, 1, 3, 4, -7, 2, 5, 4,1, 0.002, "MIN");
+        //hj.go();
 
     }
 }
