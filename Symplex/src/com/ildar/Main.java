@@ -16,7 +16,7 @@ public class Main {
         Sorting sort = new Sorting();
         
         sort.showArr(arr);
-        sort.combSorting(arr);
+        sort.mergeSort(arr);
         sort.showArr(arr);
         
 //        Scanner in = new Scanner(System.in);
